@@ -30,6 +30,10 @@ function operator(a, b, op) {
     }
 }
 
+function isOperator(a) {
+    return (a == "+" || a == "x" || a == "-" || a == "/" || a == "%");
+}
+
 const screen = document.querySelector(".display");
 function updateDisplay() {
     screen.textContent = display;
@@ -40,7 +44,6 @@ function addNum(num) {
 }
 
 const numbers = document.querySelectorAll(".num");
-console.log(numbers);
 numbers.forEach((item) => {
     item.addEventListener("click", (e) => {
         addNum(item.textContent);
@@ -52,3 +55,26 @@ clearBtn.addEventListener("click", (e) => {
     display =  "";
     updateDisplay();
 })
+
+const operators = document.querySelectorAll(".oper");
+operators.forEach((item) => {
+    item.addEventListener("click", (e) => {
+        num1 = parseFloat(display);
+        display += e.target.textContent;
+        op = e.target.textContent;
+        updateDisplay();
+        console.log(e.target.textContent);
+    });
+})
+
+const equal = document.querySelector(".equals");
+equal.addEventListener("click", (e) => {
+    let lis = display.split("");
+    let operatorsList = lis.filter((c) => isOperator(c));
+    let numbersList = display.split(/[/x+%-]/);
+    console.log(operatorsList , numbersList);
+    console.log(compute(numbersList, operatorsList));
+})
+
+
+
