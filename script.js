@@ -1,6 +1,7 @@
 let num1, num2;
-let op = "";
+let op = "+";
 let display = "";
+let result = null;
 
 function add(a, b) {
     return a + b;
@@ -34,8 +35,9 @@ function operator(a, b, op) {
 
 function compute(nList, oList) {
     //oList.sort( (a, b) => (operatorPriority[b] - operatorPriority[a]));
-    let result = 0;
     let operList = ["x", "/", "-", "+"];
+    nList = nList.filter(n => n);
+    console.log(nList.length, oList.length);
     while (oList.length != 0) {
         operList.forEach((o) => {
             let loc = oList.findIndex((op) => op == o);
@@ -47,23 +49,31 @@ function compute(nList, oList) {
             }
         })
     }
-    display = result;
+    display = String(result.toFixed(5));
     updateDisplay();
 }
+
+
+
 
 function isOperator(a) {
     return (a == "+" || a == "x" || a == "-" || a == "/" || a == "%");
 }
 
+
+// function to help with display
 const screen = document.querySelector(".display");
 function updateDisplay() {
     screen.textContent = display;
 }
+
 function addNum(num) {
     display += num;
     updateDisplay();
 }
 
+
+// code to connect event listeners to buttons
 const numbers = document.querySelectorAll(".num");
 numbers.forEach((item) => {
     item.addEventListener("click", (e) => {
@@ -74,13 +84,26 @@ numbers.forEach((item) => {
 const clearBtn = document.querySelector(".cbtn");
 clearBtn.addEventListener("click", (e) => {
     display =  "";
+    result = null;
     updateDisplay();
 })
+
+const delBth = document.querySelector(".delbtn");
+delBth.addEventListener("click", (e) => {
+    display = display.substring(0, display.length - 1);
+    updateDisplay();
+});
 
 const operators = document.querySelectorAll(".oper");
 operators.forEach((item) => {
     item.addEventListener("click", (e) => {
-        num1 = parseFloat(display);
+        if (result != null) {
+            let temp = display.split(/[/x%+-]/);
+            num2 = parseFloat(temp[temp.length - 1]);
+            result = operator(result , num2, op);
+        } else {
+            result = parseFloat(display);
+        }
         display += e.target.textContent;
         op = e.target.textContent;
         updateDisplay();
@@ -89,11 +112,20 @@ operators.forEach((item) => {
 
 const equal = document.querySelector(".equals");
 equal.addEventListener("click", (e) => {
+    /* the following code computer the equation
+    using BODMAS rule
     let lis = display.split("");
     let operatorsList = lis.filter((c) => isOperator(c));
     let numbersList = display.split(/[/x+%-]/);
-    console.log(numbersList);
-    (compute(numbersList, operatorsList));
+    compute(numbersList, operatorsList);
+    */
+
+    let temp = display.split(/[/x%+-]/);
+    num2 = parseFloat(temp[temp.length - 1]);
+    result = operator(result , num2, op);    
+
+    display = String(result.toFixed(4));
+    updateDisplay();
 })
 
 
