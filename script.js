@@ -3,7 +3,7 @@ let op = "";
 let display = "";
 
 function add(a, b) {
-    return a+b;
+    return a + b;
 }
 
 function subtract(a, b) {
@@ -19,15 +19,36 @@ function divide(a, b) {
 }
 
 function operator(a, b, op) {
+    a = parseFloat(a);
+    b = parseFloat(b);
     if (op == "+") {
         return add(a, b);
     } else if (op == "-") {
         return subtract(a, b);
-    } else if (op == "*") {
+    } else if (op == "x") {
         return multiply(a, b);
     } else if (op == "/") {
         return divide(a, b);
     }
+}
+
+function compute(nList, oList) {
+    //oList.sort( (a, b) => (operatorPriority[b] - operatorPriority[a]));
+    let result = 0;
+    let operList = ["x", "/", "-", "+"];
+    while (oList.length != 0) {
+        operList.forEach((o) => {
+            let loc = oList.findIndex((op) => op == o);
+            if (loc != -1) {
+                
+                result = operator(nList[loc], nList[loc + 1], o);
+                nList.splice(loc, 2, result);
+                oList.splice(loc, 1, );
+            }
+        })
+    }
+    display = result;
+    updateDisplay();
 }
 
 function isOperator(a) {
@@ -63,7 +84,6 @@ operators.forEach((item) => {
         display += e.target.textContent;
         op = e.target.textContent;
         updateDisplay();
-        console.log(e.target.textContent);
     });
 })
 
@@ -72,8 +92,8 @@ equal.addEventListener("click", (e) => {
     let lis = display.split("");
     let operatorsList = lis.filter((c) => isOperator(c));
     let numbersList = display.split(/[/x+%-]/);
-    console.log(operatorsList , numbersList);
-    console.log(compute(numbersList, operatorsList));
+    console.log(numbersList);
+    (compute(numbersList, operatorsList));
 })
 
 
