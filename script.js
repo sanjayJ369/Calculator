@@ -19,6 +19,10 @@ function divide(a, b) {
     return a/b;
 }
 
+function reminder(a, b) {
+    return a % b;
+}
+
 function operator(a, b, op) {
     a = parseFloat(a);
     b = parseFloat(b);
@@ -30,6 +34,8 @@ function operator(a, b, op) {
         return multiply(a, b);
     } else if (op == "/") {
         return divide(a, b);
+    } else if (op == "%") {
+        return reminder(a, b);
     }
 }
 

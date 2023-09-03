@@ -1,11 +1,15 @@
 * {
-    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 30px;
 }
 
 :root {
-    --backgroundColor : rgb(108, 108, 108);
-    --displayColor: rgb(142, 156, 129);
-    --calculatorBackgroundColor: rgb(184, 184, 184);
+    --backgroundColor : #FF6969;
+    --displayColor: #EBE76C;
+    --calculatorBackgroundColor: #FFF5E0;
 }
 
 .centerElements {
@@ -20,6 +24,7 @@ body {
     height: 100vh;
     margin: 0;
     padding: 0;
+    border: 3px solid black;
 }
 
 .display {
@@ -27,6 +32,9 @@ body {
     height: 100px;
     background-color: var(--displayColor);
     margin-bottom: 10px;
+    padding: 5px;
+    border: 3px solid black;
+    border-radius: 10px;
 }
 
 .buttons {
@@ -36,17 +44,26 @@ body {
     gap: 10px;
     width: 300px;
     height: 400px;
+    outline: none;
 }
 
 .calculator {
-    padding: 10px;
+    border: 3px solid black;
+    border-radius: 20px;
+    padding: 20px;
     background-color:  var(--calculatorBackgroundColor);
 }
 .spanColTwo {
     grid-column-end: span 2;
 }
 
+button {
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
 button:hover {
     background-color: grey;
+    outline: none;
 }
 
