@@ -2,6 +2,8 @@ let num1, num2;
 let op = "+";
 let display = "";
 let result = null;
+let decimal = true;
+let reset = false;
 
 function add(a, b) {
     return a + b;
@@ -41,7 +43,7 @@ function operator(a, b, op) {
 
 function compute(nList, oList) {
     //oList.sort( (a, b) => (operatorPriority[b] - operatorPriority[a]));
-    let operList = ["x", "/", "-", "+"];
+    let operList = ["x","%", "/", "-", "+"];
     nList = nList.filter(n => n);
     console.log(nList.length, oList.length);
     while (oList.length != 0) {
@@ -54,8 +56,14 @@ function compute(nList, oList) {
                 oList.splice(loc, 1, );
             }
         })
+        console.log(oList);
     }
-    display = String(result.toFixed(5));
+    if (Number.isInteger(result)) {
+        display = String(result.toFixed(0));
+    } else {
+        display = String(result.toFixed(5));
+    }
+    
     updateDisplay();
 }
 
@@ -74,6 +82,7 @@ function updateDisplay() {
 }
 
 function addNum(num) {
+    if (num == "." && !decimal) return;
     display += num;
     updateDisplay();
 }
@@ -83,6 +92,7 @@ function addNum(num) {
 const numbers = document.querySelectorAll(".num");
 numbers.forEach((item) => {
     item.addEventListener("click", (e) => {
+        
         addNum(item.textContent);
     });
 })
@@ -103,15 +113,17 @@ delBth.addEventListener("click", (e) => {
 const operators = document.querySelectorAll(".oper");
 operators.forEach((item) => {
     item.addEventListener("click", (e) => {
-        if (result != null) {
+        if (result != null && !reset) {
             let temp = display.split(/[/x%+-]/);
             num2 = parseFloat(temp[temp.length - 1]);
             result = operator(result , num2, op);
         } else {
             result = parseFloat(display);
+            reset = false;
         }
         display += e.target.textContent;
         op = e.target.textContent;
+        console.log(result);
         updateDisplay();
     });
 })
@@ -119,19 +131,26 @@ operators.forEach((item) => {
 const equal = document.querySelector(".equals");
 equal.addEventListener("click", (e) => {
     /* the following code computer the equation
-    using BODMAS rule
+    using BODMAS rule 
+
     let lis = display.split("");
     let operatorsList = lis.filter((c) => isOperator(c));
     let numbersList = display.split(/[/x+%-]/);
     compute(numbersList, operatorsList);
     */
-
+    reset = true;
+    
     let temp = display.split(/[/x%+-]/);
     num2 = parseFloat(temp[temp.length - 1]);
     result = operator(result , num2, op);    
 
-    display = String(result.toFixed(4));
+    if (Number.isInteger(result)) {
+        display = String(result.toFixed(0));
+    } else {
+        display = String(result.toFixed(5));
+    }
     updateDisplay();
+    
 })
 
 
